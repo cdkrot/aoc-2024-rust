@@ -15,12 +15,15 @@ pub(crate) fn maybe_read_line() -> Option<String> {
     match std::io::stdin().read_line(&mut line) {
         Ok(0) => None,
         Ok(_) => Some(line),
-        Err(_) => None
+        Err(_) => None,
     }
 }
 
 #[allow(dead_code)]
-pub(crate) fn read_int<Num : FromStr>() -> Num where <Num as FromStr>::Err: Debug {
+pub(crate) fn read_int<Num: FromStr>() -> Num
+where
+    <Num as FromStr>::Err: Debug,
+{
     let line = read_line();
 
     return line.trim().parse().unwrap();
@@ -28,10 +31,10 @@ pub(crate) fn read_int<Num : FromStr>() -> Num where <Num as FromStr>::Err: Debu
 
 #[allow(dead_code)]
 pub(crate) fn read_all_lines() -> Vec<String> {
-    let mut lines = vec!();
+    let mut lines = vec![];
 
     while let Some(line) = maybe_read_line() {
-        lines.push(line);
+        lines.push(line.trim().to_string());
     }
 
     return lines;
