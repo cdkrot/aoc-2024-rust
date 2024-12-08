@@ -6,6 +6,8 @@ mod day03;
 mod day04;
 mod day05;
 mod day06;
+mod day08;
+mod vec;
 
 fn main() {
     let day = std::env::args()
@@ -19,6 +21,7 @@ fn main() {
         "day04" => day04::main(),
         "day05" => day05::main(),
         "day06" => day06::main(),
+        "day08" => day08::main(),
 
         _ => {
             println!("Undefined day");

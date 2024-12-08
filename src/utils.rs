@@ -1,4 +1,5 @@
 use std::fmt::Debug;
+use std::mem::swap;
 use std::str::FromStr;
 
 #[allow(dead_code)]
@@ -47,4 +48,15 @@ pub(crate) fn expect_prefix<'a>(s: &'a str, expected: &str) -> &'a str {
     }
 
     return &s[expected.len()..];
+}
+
+pub(crate) fn gcd(a: i32, b: i32) -> i32 {
+    let mut a = a.abs();
+    let mut b = b.abs();
+
+    while b != 0 {
+        a = a % b;
+        swap(&mut a, &mut b);
+    }
+    a
 }
