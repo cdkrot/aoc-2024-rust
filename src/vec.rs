@@ -1,7 +1,7 @@
 extern crate derive_more;
 use derive_more::{Add, AddAssign, Display, Neg, Sub, SubAssign};
 
-#[derive(Add, Sub, AddAssign, SubAssign, Copy, Clone, Debug, PartialEq, Eq, Display, Neg)]
+#[derive(Add, Sub, AddAssign, SubAssign, Copy, Clone, Debug, PartialEq, Eq, Display, Neg, Hash)]
 #[display("({x}, {y})")]
 pub(crate) struct Vec2d {
     pub(crate) x: i32,

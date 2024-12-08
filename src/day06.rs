@@ -1,10 +1,12 @@
 use crate::utils;
+use crate::utils::is_inside_grid;
+use crate::vec::Vec2d;
 use std::collections::HashSet;
 
-fn find(field: &Vec<Vec<u8>>, what: u8) -> (i32, i32) {
+fn find(field: &Vec<Vec<u8>>, what: u8) -> Vec2d {
     for (i, row) in field.iter().enumerate() {
         if let Some(j) = row.iter().position(|&c| c == what) {
-            return (i as i32, j as i32);
+            return Vec2d::new(i as i32, j as i32);
         }
     }
     panic!();
@@ -22,26 +24,29 @@ fn visit_grid(field: &Vec<Vec<u8>>) -> VisitResult {
     let mut visited = vec![vec![false; m]; n];
     let mut cycle_breaker = HashSet::new();
 
-    let dirs = vec![(-1, 0), (0, 1), (1, 0), (0, -1)];
+    let dirs = vec![
+        Vec2d::new(-1, 0),
+        Vec2d::new(0, 1),
+        Vec2d::new(1, 0),
+        Vec2d::new(0, -1),
+    ];
 
     let mut dir_id: usize = 0;
     let mut pos = find(&field, '^' as u8);
     let mut is_cycle = false;
-    while 0 <= pos.0 && pos.0 < (n as i32) && 0 <= pos.1 && pos.1 < (m as i32) {
+    while is_inside_grid(n as i32, m as i32, pos) {
         if !cycle_breaker.insert((pos, dir_id)) {
             is_cycle = true;
             break;
         }
 
-        if field[pos.0 as usize][pos.1 as usize] == '#' as u8 {
-            pos.0 -= dirs[dir_id].0;
-            pos.1 -= dirs[dir_id].1;
+        if field[pos.x as usize][pos.y as usize] == '#' as u8 {
+            pos -= dirs[dir_id];
             dir_id = (dir_id + 1) % dirs.len();
             continue;
         }
-        visited[pos.0 as usize][pos.1 as usize] = true;
-        pos.0 += dirs[dir_id].0;
-        pos.1 += dirs[dir_id].1;
+        visited[pos.x as usize][pos.y as usize] = true;
+        pos += dirs[dir_id];
     }
 
     let total_visited: usize = visited

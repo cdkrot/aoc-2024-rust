@@ -1,3 +1,4 @@
+use crate::vec::Vec2d;
 use std::fmt::Debug;
 use std::mem::swap;
 use std::str::FromStr;
@@ -59,4 +60,8 @@ pub(crate) fn gcd(a: i32, b: i32) -> i32 {
         swap(&mut a, &mut b);
     }
     a
+}
+
+pub(crate) fn is_inside_grid(n: i32, m: i32, pt: Vec2d) -> bool {
+    return 0 <= pt.x && pt.x < n && 0 <= pt.y && pt.y < m;
 }
